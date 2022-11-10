@@ -1,0 +1,126 @@
+unit SistemaFinanceiro.View.CadastroPadrao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, System.ImageList, Vcl.ImgList,
+  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.WinXPanels,
+  SistemaFinanceiro.Module.Usuarios, SistemaFinanceiro.Module.Conexao,
+  SistemaFinanceiro.Module.UltimoLogin;
+
+type
+  TfrmCadastroPadrao = class(TForm)
+    CardPrincipal: TCardPanel;
+    CdCadastar: TCard;
+	 CdPesquisar: TCard;
+	 pnlTopCDP: TPanel;
+    edtPesquisa: TEdit;
+    btnPesquisar: TButton;
+    pnlBottom: TPanel;
+    DBGrid1: TDBGrid;
+    btnFechar: TButton;
+    btnIncluir: TButton;
+    btnImprimir: TButton;
+    btnExcluir: TButton;
+    Label1: TLabel;
+    ImageList1: TImageList;
+    btnAlterar: TButton;
+    Panel1: TPanel;
+    btnCancelar: TButton;
+    btnSalve: TButton;
+    DataSource1: TDataSource;
+    procedure btnFecharClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+	 procedure FormShow(Sender: TObject);
+	 procedure btnPesquisarClick(Sender: TObject);
+    procedure btnSalveClick(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+  private
+	 { Private declarations }
+	 procedure HabilitarBotoes;
+  public
+	 { Public declarations }
+  protected
+    procedure Pesquisar;virtual;
+  end;
+
+var
+  frmCadastroPadrao: TfrmCadastroPadrao;
+
+implementation
+
+uses
+  Datasnap.DBClient;
+
+{$R *.dfm}
+
+procedure TfrmCadastroPadrao.btnAlterarClick(Sender: TObject);
+begin
+ TClientDataSet(DataSource1.Dataset).Edit;
+ CardPrincipal.ActiveCard:= CdCadastar
+ 
+end;
+
+procedure TfrmCadastroPadrao.btnCancelarClick(Sender: TObject);
+begin
+  TClientDataSet(DataSource1.Dataset).cancel;
+  CardPrincipal.ActiveCard:= CdPesquisar;
+end;
+
+procedure TfrmCadastroPadrao.btnFecharClick(Sender: TObject);
+begin
+if MessageDlg('Tem Certeza que deseja Sair ? ', mtConfirmation, mbYesNo, 0) = 6 then
+close;
+end;
+
+procedure TfrmCadastroPadrao.btnIncluirClick(Sender: TObject);
+
+begin
+CardPrincipal.ActiveCard := CdCadastar; 
+end;
+
+
+
+procedure TfrmCadastroPadrao.btnPesquisarClick(Sender: TObject);
+begin
+	Pesquisar;
+end;
+
+procedure TfrmCadastroPadrao.btnSalveClick(Sender: TObject);
+var
+Mensagem: string;
+begin
+
+Mensagem := 'Registro alterado com sucesso!!';
+if DataSource1.DataSet.State in [dsInsert]  then
+ begin
+  Mensagem := 'Registro incluido com sucesso!!';
+ end;
+TClientDataSet(DataSource1.DataSet).Post;
+TClientDataSet(DataSource1.DataSet).ApplyUpdates(0);
+Application.MessageBox(PWideChar(Mensagem),'Sucesso',MB_OK);
+
+Pesquisar;
+CardPrincipal.ActiveCard := CdPesquisar;
+end;
+
+procedure TfrmCadastroPadrao.FormShow(Sender: TObject);
+begin
+ CardPrincipal.ActiveCard := CdPesquisar; 
+ Pesquisar;
+end;
+
+procedure TfrmCadastroPadrao.HabilitarBotoes;
+begin
+  btnAlterar.Enabled := not DataSource1.DataSet.IsEmpty;
+  btnExcluir.Enabled := not DataSource1.DataSet.IsEmpty;
+end;
+
+procedure TfrmCadastroPadrao.Pesquisar;
+begin
+	HabilitarBotoes();
+end;
+
+end.

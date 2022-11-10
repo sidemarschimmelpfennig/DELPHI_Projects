@@ -1,0 +1,37 @@
+unit SistemaFinanceiro.Model.Entidades.ContasPagar;
+
+interface
+	type TModelContasPagar = class
+	private
+    FID: String;
+    FDocumento: String;
+    FDescricao: String;
+    FParcela: Integer;
+	 FValorParcela: currency;
+	 FValorCompra: currency;
+    FValorAbatido: currency;
+    FDataCadastro: TDate;
+    FDataVencimento: TDate;
+    FDataPagamento: TDate;
+    FStatus: String;
+    FDataCompra: TDate;
+	public
+	 property ID: String read FID write FID;
+	 property Documento: String read FDocumento write FDocumento;
+	 property Descricao: String read FDescricao write FDescricao;
+	 property Parcela: Integer read FParcela write FParcela;
+	 property ValorParcela: currency read FValorParcela write FValorParcela;
+	 property ValorCompra: currency read FValorParcela write FValorCompra;
+	 property ValorAbatido: currency read FValorAbatido write FValorAbatido;
+	 property DataCompra: TDate read FDataCompra write FDataCompra;
+	 property DataCadastro: TDate read FDataCadastro write FDataCadastro;
+	 property DataVencimento: TDate read FDataVencimento write FDataVencimento;
+	 property DataPagamento: TDate read FDataPagamento write FDataPagamento;
+	 property Status: String read FStatus write FStatus;
+	 
+	end;
+implementation
+
+
+
+end.

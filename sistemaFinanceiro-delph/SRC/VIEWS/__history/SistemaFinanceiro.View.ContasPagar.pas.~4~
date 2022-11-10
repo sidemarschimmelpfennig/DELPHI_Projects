@@ -1,0 +1,57 @@
+unit SistemaFinanceiro.View.ContasPagar;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, SistemaFinanceiro.View.CadastroPadrao,
+  Data.DB, System.ImageList, Vcl.ImgList, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.WinXPanels,Utilitarios, SistemaFinanceiro.Module.ContasPagar,
+  Vcl.ComCtrls;
+
+type
+  TfrmContasPagar = class(TfrmCadastroPadrao)
+    Label2: TLabel;
+    edtDescricao: TEdit;
+    edtValorCompra: TEdit;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    edtParcela: TEdit;
+    edtNumDocumento: TEdit;
+    DataCompra: TDateTimePicker;
+    DataVencimento: TDateTimePicker;
+    edtValorParcela: TEdit;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+  private
+    { Private declarations }
+  public
+	 { Public declarations }
+  protected
+  procedure Pesquisar;override;
+	 
+  end;
+
+var
+  frmContasPagar: TfrmContasPagar;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmCadastroPadrao1 }
+
+procedure TfrmContasPagar.Pesquisar;
+var 
+FiltroPesquisa : String;
+begin
+ inherited;
+  FiltroPesquisa := TUtilitarios.LikeFind(edtPesquisa.Text, DBGrid1);
+	ModuleContasPagar.CDSContasPagar.Close;
+	ModuleContasPagar.CDSContasPagar.CommandText:='SELECT * FROM CONTAS_PAGAR WHERE 1 = 1 ' + FiltroPesquisa;
+	ModuleContasPagar.CDSContasPagar.open;
+end;
+
+end.

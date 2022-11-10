@@ -1,0 +1,23 @@
+object ModuleUsuarios: TModuleUsuarios
+  OldCreateOrder = False
+  Height = 404
+  Width = 522
+  object SQLUsuario: TFDQuery
+    Connection = ModuleConexao.FBCONEXAO
+    Left = 32
+    Top = 24
+  end
+  object CDSUsuarios: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DSPUsuarios'
+    Left = 32
+    Top = 136
+  end
+  object DSPUsuarios: TDataSetProvider
+    DataSet = SQLUsuario
+    Options = [poAllowCommandText, poUseQuoteChar]
+    Left = 32
+    Top = 80
+  end
+end

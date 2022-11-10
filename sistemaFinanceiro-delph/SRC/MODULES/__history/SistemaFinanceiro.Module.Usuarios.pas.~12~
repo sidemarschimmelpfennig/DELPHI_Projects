@@ -1,0 +1,141 @@
+unit SistemaFinanceiro.Module.Usuarios;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, SistemaFinanceiro.Module.Conexao,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Datasnap.Provider, Datasnap.DBClient,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Utilitarios.usuarios,
+  BCrypt, SistemaFinanceiro.Module.UltimoLogin;
+
+type
+  TModuleUsuarios = class(TDataModule)
+    SQLUsuario: TFDQuery;
+    CDSUsuarios: TClientDataSet;
+    DSPUsuarios: TDataSetProvider;
+    CDSUsuariosid: TStringField;
+    CDSUsuariosnome: TStringField;
+    CDSUsuarioslogin: TStringField;
+    CDSUsuariossenha: TStringField;
+    CDSUsuariosstatus: TStringField;
+    CDSUsuariosdata_cadastro: TDateField;
+    CDSUsuariossenha_temporaria: TStringField;
+    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleDestroy(Sender: TObject);
+  private
+	 FEntidadeUsuarios : EntidadeUsuarios;
+	 
+	 { Private declarations }
+  public
+	 { Public declarations }
+	 function TemLoginCadastrado(Login: String; Id: string):boolean;
+	 procedure EfetuarLogin(Login:string; Senha: string);
+	 function GetUsuarioLogado: EntidadeUsuarios;
+	 procedure LimparSenha(IDUsuario: String);
+	 procedure RedefinirSenha(Usuario: EntidadeUsuarios);
+	 const TEMP_PASSWORD = '123456';
+  end;
+
+var
+ModuleUsuarios: TModuleUsuarios;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TModuleUsuarios }
+
+procedure TModuleUsuarios.DataModuleCreate(Sender: TObject);
+begin
+FEntidadeUsuarios:= EntidadeUsuarios.Create 
+end;
+
+
+procedure TModuleUsuarios.DataModuleDestroy(Sender: TObject);
+begin
+FEntidadeUsuarios.Free
+end;
+
+procedure TModuleUsuarios.EfetuarLogin(Login:string; Senha: string);
+var
+	SQLConsulta: TFDQuery;
+begin
+	 SQLConsulta:= TFDQuery.Create(nil);
+	 try
+	  SQLConsulta.Connection := ModuleConexao.FBCONEXAO;
+	  SQLConsulta.SQL.Clear;
+	  SQLConsulta.SQL.Add('SELECT * FROM USUARIOS WHERE LOGIN = :LOGIN ');
+	  SQLConsulta.ParamByName('LOGIN').AsString := LOGIN;
+	  SQLConsulta.Open;
+	  if SQLConsulta.IsEmpty then
+		raise Exception.Create('Usuario e/ou senha Incompativeis');
+	  if not TBCrypt.CompareHash(Senha, SQLConsulta.FieldByName('SENHA').AsString)then
+		 raise Exception.Create('Usuario e/ou senha Incompativeis');
+	  if SQLConsulta.FieldByName('STATUS').AsString <> 'A' then
+		 raise Exception.Create('Usuario Bloqueado, favor entrar em contato com o administrador');
+
+	  FEntidadeUsuarios.Id := SQLConsulta.FieldByName('ID').AsString;
+	  FEntidadeUsuarios.Nome := SQLConsulta.FieldByName('NOME').AsString;  
+	  FEntidadeUsuarios.Login := SQLConsulta.FieldByName('LOGIN').AsString;
+	 finally
+		 SQLConsulta.Close;
+		 SQLConsulta.Free;
+    end;
+	 
+end;
+function TModuleUsuarios.GetUsuarioLogado: EntidadeUsuarios;
+begin
+Result:= FEntidadeUsuarios;
+end;
+
+procedure TModuleUsuarios.LimparSenha(IDUsuario: String);
+var
+  SQLQuery: TFDQuery; 
+begin
+	SQLQuery:= TFDQuery.Create(nil);;
+	try
+	 SQLQuery.Connection := ModuleConexao.FBCONEXAO;
+	 SQLQuery.SQL.Clear;
+	 SQLQuery.SQL.Add('UPDATE USUARIOS SET SENHA_TEMPORARIA = :SENHA_TEMPORARIA and SENHA = :SENHA WHERE ID = :ID');
+	 SQLQuery.ParamByName('SENHA_TEMPORARIA').AsString := 'S';
+	 SQLQuery.ParamByName('SENHA').AsString :=  TBcrypt.GenerateHash(Trim(TEMP_PASSWORD));
+	 SQLQuery.ParamByName('ID').AsString :=  IDUsuario;
+	 SQLQuery.ExecSQL
+	finally
+		SQLQuery.Close;
+		SQLQuery.Free;
+	end;
+	
+end;
+
+procedure TModuleUsuarios.RedefinirSenha(Usuario: EntidadeUsuarios);
+begin
+	 
+end;
+
+function TModuleUsuarios.TemLoginCadastrado(Login:String; Id: string):boolean;
+
+var
+	SQLConsulta: TFDQuery;
+begin
+	Result:= false;
+	SQLConsulta:= TFDQuery.Create(nil);
+	try
+	  SQLConsulta.Connection := ModuleConexao.FBCONEXAO;
+	  SQLConsulta.SQL.Clear;
+	  SQLConsulta.SQL.Add('SELECT ID FROM USUARIOS WHERE LOGIN = :LOGIN');
+	  SQLConsulta.ParamByName('LOGIN').AsString := Login;
+	  SQLConsulta.Open;
+	  if not SQLConsulta.IsEmpty then
+	  Result:= SQLConsulta.FieldByName('ID').AsString <> ID;
+	finally
+	  SQLConsulta.Close;
+	  SQLConsulta.Free;
+	end;
+end;
+
+end.

@@ -1,0 +1,51 @@
+unit SistemaFinanceiro.View.Caixa.Saldo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.ImageList, Vcl.ImgList,
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls;
+
+type
+  TfrmCaixaSaldo = class(TForm)
+    pnPrincipal: TPanel;
+    pnTop: TPanel;
+    pnContainer: TPanel;
+    btnPesquisar: TButton;
+    ImageList1: TImageList;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
+    lblDTFim: TLabel;
+    lblDTIni: TLabel;
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label4: TLabel;
+    Panel2: TPanel;
+    Panel4: TPanel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Panel3: TPanel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Panel5: TPanel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Panel6: TPanel;
+    Panel7: TPanel;
+    Label5: TLabel;
+    Label6: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCaixaSaldo: TfrmCaixaSaldo;
+
+implementation
+
+{$R *.dfm}
+
+end.

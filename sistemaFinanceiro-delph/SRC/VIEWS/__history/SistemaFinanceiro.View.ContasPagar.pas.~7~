@@ -1,0 +1,161 @@
+unit SistemaFinanceiro.View.ContasPagar;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, SistemaFinanceiro.View.CadastroPadrao,
+  Data.DB, System.ImageList, Vcl.ImgList, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.WinXPanels,Utilitarios, SistemaFinanceiro.Module.ContasPagar,
+  Vcl.ComCtrls;
+
+type
+  TfrmContasPagar = class(TfrmCadastroPadrao)
+    Label2: TLabel;
+    edtDescricao: TEdit;
+    edtValorCompra: TEdit;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    edtParcela: TEdit;
+    edtNumDocumento: TEdit;
+    DataCompra: TDateTimePicker;
+    DataVencimento: TDateTimePicker;
+    edtValorParcela: TEdit;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    CardPanel1: TCardPanel;
+    Card1: TCard;
+    procedure btnSalveClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+	 { Public declarations }
+  protected
+  procedure Pesquisar;override;
+	 
+  end;
+
+var
+  frmContasPagar: TfrmContasPagar;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmCadastroPadrao1 }
+
+procedure TfrmContasPagar.btnExcluirClick(Sender: TObject);
+begin
+	  if ModuleContasPagar.CDSContasPagarSTATUS.AsString = 'C' then
+		  begin
+			  Application.MessageBox('O documento ja se encontra cancelado' , 'Atenção' , MB_OK );
+			  abort;
+		  end;
+		if Application.MessageBox('Deseja realmente cancelar o   a nota ? ', 'Pergunta', MB_YESNO + MB_ICONQUESTION ) <> mrYes  then
+	 exit  ;
+	 
+
+	try
+		ModuleContasPagar.CDSContasPagar.Edit;
+		ModuleContasPagar.CDSContasPagarSTATUS.AsString := 'C';
+		ModuleContasPagar.CDSContasPagar.ApplyUpdates(0);
+		Application.MessageBox('Registro excluido com Sucesso !! ', 'Informação', MB_OK);
+		Pesquisar;
+	except on E : exception do  
+	  Application.MessageBox(PWideChar(E.Message), 'Erro ao Excluir registro', MB_OK + MB_ICONERROR)
+	end;
+
+
+
+
+  inherited;
+
+end;
+
+procedure TfrmContasPagar.btnIncluirClick(Sender: TObject);
+begin
+  inherited;
+  DataCompra.Date := now;
+  DataVencimento.Date := now;
+end;
+
+procedure TfrmContasPagar.btnSalveClick(Sender: TObject);
+var 
+Parcela: integer;
+ValorCompra: Currency;
+ValorParcela: Currency;
+begin
+ 
+  if Trim(edtNumDocumento.Text) = '' then
+  begin
+	edtNumDocumento.SetFocus;
+	application.MessageBox('O campo não pode ser vazio !!' , 'Atenção', MB_ICONWARNING);
+	abort;
+  end;
+  
+  if not TryStrToCurr(edtValorCompra.Text, ValorCompra) then
+  begin
+	edtValorCompra.SetFocus;
+	application.MessageBox('O campo Valor da Compra  esta incorreto ou  pode ser vazio !!' , 'Atenção', MB_ICONWARNING);
+	abort; 
+  end;
+  
+	 if not TryStrToInt(edtParcela.Text, Parcela) then
+  begin
+	edtParcela.SetFocus;
+	application.MessageBox('Numero da Parcela Invalido' , 'Atenção', MB_ICONWARNING);
+	abort; 
+  end;
+
+	if not TryStrToCurr(edtValorParcela.Text, ValorParcela) then
+  begin
+	edtValorParcela.SetFocus;
+	application.MessageBox('O campo parcela  esta incorreto ou  pode ser vazio !!' , 'Atenção', MB_ICONWARNING);
+	abort; 
+  end;
+  
+  if DataVencimento.Date < DataCompra.Date then
+  begin
+	DataVencimento.SetFocus;
+	Application.MessageBox('O Vencimento nao pode ser antes do Dia de Compra ' , 'Atenção', MB_ICONWARNING );
+	abort; 
+  end;
+
+  if DataSource1.State in [dsInsert] then
+  begin
+	 ModuleContasPagar.CDSContasPagarID.AsString:= TUtilitarios.GetId;
+	 ModuleContasPagar.CDSContasPagarDATA_CADASTRO.AsDateTime:= now;
+	 ModuleContasPagar.CDSContasPagarSTATUS.AsString:= 'A';
+	 ModuleContasPagar.CDSContasPagarVALOR_ABATIDO.AsCurrency := 0 ;
+  end;
+
+  ValorCompra := StrToCurr(edtValorCompra.Text);
+  Parcela := StrToInt(edtParcela.Text);
+  ValorParcela := StrToCurr(edtValorParcela.Text); 
+
+  ModuleContasPagar.CDSContasPagarNUMERO_DOCUMENTO.AsString := edtNumDocumento.Text;
+  ModuleContasPagar.CDSContasPagarDESCRICAO.AsString:= edtDescricao.Text;
+  ModuleContasPagar.CDSContasPagarVALOR_PARCELA.AsCurrency := ValorParcela;
+  ModuleContasPagar.CDSContasPagarPARCELA.AsInteger := Parcela;
+  ModuleContasPagar.CDSContasPagarVALOR_COMPRA.AsCurrency := ValorCompra;
+  ModuleContasPagar.CDSContasPagarDATA_VENCIMENTO.AsDateTime := DataVencimento.Date;
+  ModuleContasPagar.CDSContasPagarDATA_COMPRA.AsDateTime := DataCompra.Date; 
+	inherited;
+end;
+
+procedure TfrmContasPagar.Pesquisar;
+var 
+FiltroPesquisa : String;
+begin
+ inherited;
+  FiltroPesquisa := TUtilitarios.LikeFind(edtPesquisa.Text, DBGrid1);
+	ModuleContasPagar.CDSContasPagar.Close;
+	ModuleContasPagar.CDSContasPagar.CommandText:='SELECT * FROM CONTAS_PAGAR WHERE 1 = 1 ' + FiltroPesquisa;
+	ModuleContasPagar.CDSContasPagar.open;
+end;
+
+end.

@@ -1,0 +1,24 @@
+object ModuleConexao: TModuleConexao
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 380
+  Width = 593
+  object FBCONEXAO: TFDConnection
+    Params.Strings = (
+      
+        'Database=C:\Users\Dev\Desktop\Projeto_Financeiro\SRC\BANCO\BANCO' +
+        '.FDB'
+      'DriverID=FB'
+      'User_Name=sysdba'
+      'Password=masterkey')
+    Connected = True
+    LoginPrompt = False
+    Left = 24
+    Top = 24
+  end
+  object FDPhysFBDriverLink1: TFDPhysFBDriverLink
+    VendorLib = 'C:\Program Files (x86)\Firebird\Firebird_2_5\bin\fbclient.dll'
+    Left = 120
+    Top = 24
+  end
+end

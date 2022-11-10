@@ -1,0 +1,23 @@
+program MonolitoFinanceiro;
+
+uses
+  Vcl.Forms,
+  SistemaFinanceiro.View.Principal in 'SRC\VIEWS\SistemaFinanceiro.View.Principal.pas' {frmPrincipal},
+  MonolitoFinanceiro.View.CadastroPadrao in '..\..\Documents\Embarcadero\Studio\Projects\Projetos_novo_ead\Sistema_Financeiro\src\View\MonolitoFinanceiro.View.CadastroPadrao.pas' {frmCadastroPadrao},
+  SistemaFinanceiro.View.Splash in 'SRC\VIEWS\SistemaFinanceiro.View.Splash.pas' {frmSplash},
+  MonolitoFinanceiro.Db.Principal in '..\..\Documents\Embarcadero\Studio\Projects\Projetos_novo_ead\Sistema_Financeiro\src\DBConexao\MonolitoFinanceiro.Db.Principal.pas' {DBmodule: TDataModule},
+  MonolitoFinanceiro.View.Usuarios in '..\..\Documents\Embarcadero\Studio\Projects\Projetos_novo_ead\Sistema_Financeiro\src\View\MonolitoFinanceiro.View.Usuarios.pas' {frmCadastroUsuarios},
+  MonolitoFinanceiro.Db.Usuarios in '..\..\Documents\Embarcadero\Studio\Projects\Projetos_novo_ead\Sistema_Financeiro\src\DBConexao\MonolitoFinanceiro.Db.Usuarios.pas' {DataModule1: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  //Application.CreateForm(TDBmodule, DBmodule);
+  //Application.CreateForm(TDBmodule, DBmodule);
+  //Application.CreateForm(TDBmodule, DBmodule);
+  Application.CreateForm(TfrmCadastroUsuarios, frmCadastroUsuarios);
+  Application.Run;
+end.

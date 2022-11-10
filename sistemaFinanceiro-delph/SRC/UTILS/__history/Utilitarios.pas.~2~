@@ -1,0 +1,18 @@
+unit Utilitarios;
+
+interface
+type
+  TUtilitarios = class 
+	  class function GetId:String;
+	  
+  end;
+implementation
+
+{ TUtilitarios }
+
+class function TUtilitarios.GetId: String;
+begin
+Result:= TGUID.NewGuid.TO
+end;
+
+end.

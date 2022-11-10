@@ -1,0 +1,7 @@
+unit SistemaFinanceiro.Model.Entidades.ContasReceber;
+
+interface
+
+implementation
+
+end.

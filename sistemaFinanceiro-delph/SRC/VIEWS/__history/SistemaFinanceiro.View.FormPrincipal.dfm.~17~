@@ -1,0 +1,82 @@
+object frmPrincipal: TfrmPrincipal
+  Left = 0
+  Top = 0
+  ClientHeight = 465
+  ClientWidth = 710
+  Color = clBtnHighlight
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Menu = MainMenu1
+  OldCreateOrder = False
+  Position = poScreenCenter
+  WindowState = wsMaximized
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 432
+    Width = 710
+    Height = 33
+    Panels = <
+      item
+        Width = 200
+      end
+      item
+        Width = 300
+      end>
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 710
+    Height = 432
+    Align = alClient
+    BevelOuter = bvNone
+    Color = clHotLight
+    ParentBackground = False
+    TabOrder = 1
+  end
+  object MainMenu1: TMainMenu
+    object Cadastros1: TMenuItem
+      Caption = 'Cadastros'
+      object Usuarios1: TMenuItem
+        Caption = 'Usuarios'
+        OnClick = Usuarios1Click
+      end
+    end
+    object Sair1: TMenuItem
+      Caption = 'Financeiro'
+      object MnuCaixa: TMenuItem
+        Caption = 'Caixa'
+        OnClick = MnuCaixaClick
+      end
+      object ContasaPagar1: TMenuItem
+        Caption = 'Contas a Pagar'
+        OnClick = ContasaPagar1Click
+      end
+      object ContasaReceber1: TMenuItem
+        Caption = 'Contas a Receber'
+        OnClick = ContasaReceber1Click
+      end
+    end
+    object Ajuda1: TMenuItem
+      Caption = 'Relatorios'
+      object mnuResumoDeCaixa: TMenuItem
+        Caption = 'Resumo de Caixa'
+        OnClick = mnuResumoDeCaixaClick
+      end
+    end
+    object Sair2: TMenuItem
+      Caption = 'Ajuda'
+    end
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    Left = 584
+    Top = 376
+  end
+end

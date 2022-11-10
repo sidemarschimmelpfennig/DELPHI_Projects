@@ -1,0 +1,26 @@
+unit Utilitarios.usuarios;
+
+interface
+type
+EntidadeUsuarios = class
+	private
+	 FNome: String;
+	 FLogin: string;
+	 FId: string;
+    Fsenha: string;
+    Fsenha_temporaria: string;
+	public
+	 property Nome: String read FNome write FNome;
+	 property Login: String read FLogin write FLogin;
+	 property Id: string read FId write FId;
+	 property senha: string read Fsenha write Fsenha;
+	 property senha_temporaria: string read Fsenha_temporaria write Fsenha_temporaria;
+end;         
+
+implementation
+
+{ EntidadeUsuarios }
+
+
+
+end.

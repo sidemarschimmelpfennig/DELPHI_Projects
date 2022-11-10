@@ -1,0 +1,18 @@
+unit Utilitarios.usuarios;
+
+interface
+type
+EntidadeUsuarios = class
+	private
+	 FNomeUsuarioLogado: String;
+	 FLoginUsuarioLogado: string;
+	 FIdUsuarioLogado: string;
+	public
+	 property NomeUsuarioLogado: String read FNomeUsuarioLogado write FNomeUsuarioLogado;
+	 property LoginUsuarioLogado: String read FLoginUsuarioLogado write FLoginUsuarioLogado;
+	 property IdUsuarioLogado: string read FIdUsuarioLogado write FIdUsuarioLogado;
+end;
+
+implementation
+
+end.

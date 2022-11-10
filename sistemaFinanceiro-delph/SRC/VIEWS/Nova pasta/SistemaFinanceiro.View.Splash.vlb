@@ -1,0 +1,17 @@
+﻿[ImgLogo]
+Coordinates=10,10,57,51
+Visible=True
+
+[pnlPrincipal]
+Coordinates=84,10,73,51
+
+[]
+Coordinates=27,80,57,51
+Visible=True
+
+[Timer1]
+Coordinates=205,71,48,33
+
+[ProgressBar1]
+Coordinates=86,80,81,51
+

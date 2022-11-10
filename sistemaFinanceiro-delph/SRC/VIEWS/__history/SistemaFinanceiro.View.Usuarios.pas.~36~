@@ -1,0 +1,198 @@
+unit SistemaFinanceiro.View.Usuarios;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, SistemaFinanceiro.View.CadastroPadrao,
+  Data.DB, System.ImageList, Vcl.ImgList, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.WinXPanels, Vcl.WinXCtrls, Utilitarios, Vcl.Menus,
+  SistemaFinanceiro.View.RedefinirSenha;
+
+type
+  TfrmUsuarios = class(TfrmCadastroPadrao)
+    edtNome: TEdit;
+    edtUsuario: TEdit;
+	 Label2: TLabel;
+	 Label4: TLabel;
+	 ToggleStatus: TToggleSwitch;
+    Label6: TLabel;
+    PopupMenu1: TPopupMenu;
+	 LimparSenha1: TMenuItem;
+    RedefinirSenha1: TMenuItem;
+	 procedure FormShow(Sender: TObject);
+	 procedure btnSalveClick(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+	 procedure LimparSenha1Click(Sender: TObject);
+    procedure btnPesquisarClick(Sender: TObject);
+
+	  
+	 
+  private
+	 { Private declarations }
+	  procedure LimparCampos;
+	 
+  public
+	 { Public declarations }
+  protected
+	 procedure Pesquisar;override; 
+  end;
+
+var
+  frmUsuarios: TfrmUsuarios;
+ 
+implementation
+uses
+ SistemaFinanceiro.Module.Usuarios,
+ BCrypt
+ ;
+{$R *.dfm}
+
+
+
+
+
+procedure TfrmUsuarios.btnAlterarClick(Sender: TObject);
+begin                                                            
+	  inherited;
+		CardPrincipal.ActiveCard := CdCadastar;
+		ModuleUsuarios.CDSUsuarios.Edit;
+		edtNome.Text := ModuleUsuarios.CDSUsuariosnome.AsString;
+		edtUsuario.Text := ModuleUsuarios.CDSUsuarioslogin.AsString;
+			ToggleStatus.State := tssOn;
+		if ModuleUsuarios.CDSUsuariosstatus.AsString = 'B' then
+			ToggleStatus.State := tssOff;
+end;
+  
+procedure TfrmUsuarios.btnExcluirClick(Sender: TObject);
+begin
+  inherited;
+	if Application.MessageBox('Deseja realmente excluir o registro ?', 'Pergunta', MB_YESNO + MB_ICONQUESTION ) <> mrYes  then
+	 exit  ;
+	try
+		ModuleUsuarios.CDSUsuarios.Delete;
+		ModuleUsuarios.CDSUsuarios.ApplyUpdates(0);
+		Application.MessageBox('Registro excluido com Sucesso !! ', 'Informação', MB_OK);
+	except on E : exception do  
+	  Application.MessageBox(PWideChar(E.Message), 'Erro ao Excluir registro', MB_OK + MB_ICONERROR)
+	end;
+end;
+
+procedure TfrmUsuarios.btnIncluirClick(Sender: TObject);
+begin
+  inherited;
+  LimparCampos;
+  ModuleUsuarios.CDSUsuarios.Insert;
+end;
+
+procedure TfrmUsuarios.btnPesquisarClick(Sender: TObject);
+begin
+  inherited;
+  Pesquisar;
+end;
+
+procedure TfrmUsuarios.btnSalveClick(Sender: TObject);
+var 
+LStatus: String;
+begin  
+	  inherited;
+	  ModuleUsuarios.CDSUsuarios.Edit;
+//==================================================================
+	 if trim(edtUsuario.Text) = '' then
+		begin
+			edtUsuario.SetFocus;
+			Application.MessageBox('O campo de Usuario esta vazio !!','Atenção', MB_OK + MB_ICONWARNING);
+			abort;
+		end;
+	 if trim(edtNome.Text) = '' then
+		begin
+			edtNome.SetFocus;
+			Application.MessageBox('O campo de Nome esta vazio !!','Atenção', MB_OK + MB_ICONWARNING);
+			abort;
+		end;
+		if ModuleUsuarios.TemLoginCadastrado(trim(edtUsuario.Text) ,  ModuleUsuarios.CDSUsuarios.FieldByName('ID').AsString) then
+		begin
+			edtUsuario.SetFocus;
+			Application.MessageBox(PWideChar(Format('O login %s ja se encontra cadastrado !! ', [edtUsuario.Text])),'Atenção', MB_OK + MB_ICONWARNING);
+			abort;
+		end;
+		LStatus:='A';
+		if ToggleStatus.State = tssOff then
+		LStatus:= 'B';
+		if ModuleUsuarios.CDSUsuarios.State in [dsInsert]  then
+		begin
+			ModuleUsuarios.CDSUsuariosid.AsString := TUtilitarios.GetId;
+			ModuleUsuarios.CDSUsuariosdata_cadastro.AsDateTime := now;
+			ModuleUsuarios.CDSUsuariossenha.AsString := TBCrypt.GenerateHash(ModuleUsuarios.TEMP_PASSWORD) ;
+			ModuleUsuarios.CDSUsuariossenha_temporaria.AsString := 'S';
+		 end;
+		
+//=================================================================
+
+		
+		ModuleUsuarios.CDSUsuariosnome.AsString :=  Trim(edtNome.Text);
+		ModuleUsuarios.CDSUsuarioslogin.AsString :=   Trim(edtUsuario.Text);
+		ModuleUsuarios.CDSUsuariosstatus.AsString := (LStatus);
+  
+end;
+  {	ModuleUsuarios.CDSUsuarios.Edit;
+			ModuleUsuarios.CDSUsuariosnome.AsString :=  Trim(edtNome.Text);
+		ModuleUsuarios.CDSUsuarioslogin.AsString :=   Trim(edtUsuario.Text)
+		ModuleUsuarios.CDSUsuariosstatus.AsString := (LStatus);  }
+//================================================================
+
+
+procedure TfrmUsuarios.FormShow(Sender: TObject);
+begin
+	  inherited;
+	  CardPrincipal.ActiveCard := CdPesquisar;
+	  
+end;
+
+procedure TfrmUsuarios.LimparCampos;
+var 
+Contador: integer;
+begin
+	for Contador := 0 to Pred (ComponentCount) do
+	begin	  
+	if Components[Contador] is TCustomEdit   then
+	TCustomEdit(Components[Contador]).Clear
+	else 
+		if Components[Contador] is TToggleSwitch then
+		TToggleSwitch(Components[Contador]).State := tssOn;
+	end;
+end;
+
+procedure TfrmUsuarios.LimparSenha1Click(Sender: TObject);
+begin
+	inherited;
+	if not DataSource1.DataSet.IsEmpty then
+	begin
+		ModuleUsuarios.LimparSenha(DataSource1.DataSet.FieldByName('ID').AsString);
+		Application.MessageBox(PWideChar(Format('Foi definida a senha  padrão para o usuario "%s" ',[DataSource1.DataSet.FieldByName('Nome').AsString])),'Atenção', MB_OK + MB_ICONINFORMATION )
+	end;
+  
+end;
+
+
+
+procedure TfrmUsuarios.Pesquisar;
+var 
+FiltroPesquisa : string;
+begin
+  inherited;
+  FiltroPesquisa:= TUtilitarios.LikeFind(edtPesquisa.Text, DBGrid1);
+  ModuleUsuarios.CDSUsuarios.Close;
+  ModuleUsuarios.CDSUsuarios.CommandText := 'select * from usuarios' + FiltroPesquisa;
+  ModuleUsuarios.CDSUsuarios.Open;  
+end;
+
+//ModuleConexao.FDQuery1.SQL.Clear;
+  //ModuleConexao.FDQuery1.SQL.Add('Select * from usuarios');
+  //ModuleConexao.FDQuery1.Open;
+
+
+
+end.

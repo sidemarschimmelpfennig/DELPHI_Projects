@@ -1,0 +1,71 @@
+unit SistemaFinanceiro.View.Principal;
+
+interface
+
+uses
+  Winapi.Windows, 
+  Winapi.Messages, 
+  System.SysUtils, 
+  System.Variants, 
+  System.Classes, 
+  Vcl.Graphics,
+  Vcl.Controls, 
+  Vcl.Forms, 
+  Vcl.Dialogs, 
+  Vcl.Menus,
+  Vcl.StdCtrls,
+  Vcl.Grids,
+  Vcl.DBGrids,
+  MonolitoFinanceiro.View.CadastroPadrao,
+  MonolitoFinanceiro.View.Splash,
+  MonolitoFinanceiro.Db.Principal, Data.DB,
+  MonolitoFinanceiro.View.Usuarios;
+
+type
+  TfrmPrincipal = class(TForm)
+	 MainMenu1: TMainMenu;
+	 mnCadastro: TMenuItem;
+	 mnRelatorio1: TMenuItem;
+	 mnAjuda: TMenuItem;
+	 mnCadastroPadrao: TMenuItem;
+	 procedure mnCadastroPadraoClick(Sender: TObject);
+	 procedure FormCreate(Sender: TObject);
+	
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TfrmPrincipal.FormCreate(Sender: TObject);
+begin
+  frmSplash := TfrmSplash.Create(nil);
+  try
+	  frmSplash.ShowModal;
+  finally
+	  FreeAndNil(frmSplash);
+  end;
+end;
+
+procedure TfrmPrincipal.mnCadastroPadraoClick(Sender: TObject);
+var 
+frmCadastroPadrao: TfrmUsuarios;
+begin
+	frmCadastroPadrao := TfrmUsuarios.Create(nil);
+	try  
+	  frmCadastroPadrao.ShowModal;
+	finally
+	  FreeAndNil(frmUsuarios);
+	end;
+	
+ end; 
+
+end.

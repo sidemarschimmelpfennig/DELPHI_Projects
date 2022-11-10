@@ -1,0 +1,100 @@
+unit SistemaFinanceiro.View.FormPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, SistemaFinanceiro.View.Splash,
+  SistemaFinanceiro.View.CadastroPadrao, SistemaFinanceiro.View.Usuarios,
+  SistemaFinanceiro.View.Login, Vcl.ComCtrls, SistemaFinanceiro.Module.Usuarios,
+  Vcl.ExtCtrls, SistemaFinanceiro.View.RedefinirSenha;
+
+type
+  TfrmPrincipal = class(TForm)
+    MainMenu1: TMainMenu;
+    Cadastros1: TMenuItem;
+    Ajuda1: TMenuItem;
+    Sair1: TMenuItem;
+    Usuarios1: TMenuItem;
+    StatusBar1: TStatusBar;
+    Timer1: TTimer;
+   
+    procedure Usuarios1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+  private
+	 { Private declarations }
+  public
+	 { Public declarations }
+
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+  
+
+  
+
+implementation
+
+
+{$R *.dfm}
+
+
+procedure TfrmPrincipal.FormCreate(Sender: TObject);
+begin
+  frmSplash := TfrmSplash.Create(nil);
+  try
+	  frmSplash.ShowModal;
+  finally
+	  FreeAndNil(frmSplash);
+  end;
+	 frmLogin := TfrmLogin.Create(nil);
+  try
+	  frmLogin.ShowModal;
+	  if frmLogin.ModalResult <> mrOk then
+	  Application.Terminate;
+	  
+  finally
+	  FreeAndNil(frmLogin);
+  end;
+  if ModuleUsuarios.GetUsuarioLogado.SenhaTemporaria then
+  begin
+	  frmRedefinirSenha := TfrmRedefinirSenha.Create(nil);
+	  try
+		  frmRedefinirSenha.Usuario:= ModuleUsuarios.GetUsuarioLogado;
+			frmRedefinirSenha.ShowModal;
+			if frmRedefinirSenha.ModalResult <> mrOK then
+			 Application.Terminate;
+			
+	  finally
+		  FreeAndNil(frmRedefinirSenha);
+	  end;
+  end;
+  
+  StatusBar1.Panels.Items[1].Text := 'Usuario: '  + ModuleUsuarios.GetUsuarioLogado.Nome
+  
+end;
+
+
+
+procedure TfrmPrincipal.Timer1Timer(Sender: TObject);
+begin
+ StatusBar1.Panels.Items[0].Text := DateTimeToStr(now); 
+end;
+
+procedure TfrmPrincipal.Usuarios1Click(Sender: TObject);
+var 
+  frmUsuarios: SistemaFinanceiro.View.Usuarios.TfrmUsuarios;
+begin
+	frmUsuarios := SistemaFinanceiro.View.Usuarios.TfrmUsuarios.Create(nil);
+	try
+	  frmUsuarios.ShowModal;
+	finally
+	  FreeAndNil(frmUsuarios);
+	end;
+
+end;
+
+end.

@@ -1,0 +1,242 @@
+inherited frmContasPagar: TfrmContasPagar
+  Caption = 'Contas a Pagar'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited CardPrincipal: TCardPanel
+    ActiveCard = CdCadastar
+    inherited CdCadastar: TCard
+      Caption = 
+        'vvobject Edit1: TEditobject Edit1: TEditobject Edit1: TEditobjec' +
+        't Edit1: TEdit'
+      Font.Name = '@Microsoft YaHei UI'
+      ParentFont = False
+      ExplicitLeft = 0
+      object Label2: TLabel [0]
+        Left = 28
+        Top = 33
+        Width = 88
+        Height = 19
+        Caption = 'DESCRI'#199#195'O'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label3: TLabel [1]
+        Left = 28
+        Top = 67
+        Width = 130
+        Height = 21
+        Caption = 'Valor da Compra'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = '@Microsoft YaHei UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label4: TLabel [2]
+        Left = 28
+        Top = 97
+        Width = 147
+        Height = 21
+        Caption = 'DATA DA COMPRA'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = '@Microsoft YaHei UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label5: TLabel [3]
+        Left = 28
+        Top = 127
+        Width = 145
+        Height = 21
+        Caption = 'N'#176' do Documento '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = '@Microsoft YaHei UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label6: TLabel [4]
+        Left = 28
+        Top = 162
+        Width = 55
+        Height = 21
+        Caption = 'Parcela'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = '@Microsoft YaHei UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label7: TLabel [5]
+        Left = 28
+        Top = 192
+        Width = 124
+        Height = 21
+        Caption = 'Valor da Parcela'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = '@Microsoft YaHei UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label8: TLabel [6]
+        Left = 28
+        Top = 219
+        Width = 158
+        Height = 21
+        Caption = 'Data do Vencimento'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = '@Microsoft YaHei UI'
+        Font.Style = []
+        ParentFont = False
+      end
+      object edtDescricao: TEdit
+        Left = 200
+        Top = 34
+        Width = 356
+        Height = 24
+        TabOrder = 1
+      end
+      object edtValorCompra: TEdit
+        Left = 200
+        Top = 64
+        Width = 356
+        Height = 24
+        TabOrder = 2
+      end
+      object edtParcela: TEdit
+        Left = 200
+        Top = 154
+        Width = 356
+        Height = 24
+        TabOrder = 3
+      end
+      object edtNumDocumento: TEdit
+        Left = 200
+        Top = 124
+        Width = 356
+        Height = 24
+        TabOrder = 4
+      end
+      object DataCompra: TDateTimePicker
+        Left = 200
+        Top = 94
+        Width = 356
+        Height = 24
+        Date = 44819.000000000000000000
+        Time = 0.690075150465418100
+        TabOrder = 5
+      end
+      object DataVencimento: TDateTimePicker
+        Left = 200
+        Top = 214
+        Width = 356
+        Height = 24
+        Date = 44819.000000000000000000
+        Time = 0.691395057867339300
+        TabOrder = 6
+      end
+      object edtValorParcela: TEdit
+        Left = 200
+        Top = 184
+        Width = 356
+        Height = 24
+        TabOrder = 7
+      end
+    end
+    inherited CdPesquisar: TCard
+      inherited DBGrid1: TDBGrid
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'NUMERO_DOCUMENTO'
+            Title.Caption = 'N'#176' DOCUMENTO'
+            Width = 89
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'STATUS'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'DESCRICAO'
+            Width = 100
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'PARCELA'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_PARCELA'
+            Title.Caption = 'VALOR PARCELA'
+            Width = 91
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_COMPRA'
+            Title.Caption = 'VALOR COMPRA'
+            Width = 90
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'VALOR_ABATIDO'
+            Title.Caption = 'VALOR ABATIDO'
+            Width = 90
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'DATA_COMPRA'
+            Title.Caption = 'DATA COMPRA'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'DATA_CADASTRO'
+            Title.Caption = 'DATA CADASTRO'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'DATA_VENCIMENTO'
+            Title.Caption = 'DATA VENCIMENTO'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'DATA_PAGAMENTO'
+            Title.Caption = 'DATA PAGAMENTO'
+            Visible = True
+          end>
+      end
+    end
+  end
+  inherited ImageList1: TImageList
+    Left = 624
+    Top = 72
+  end
+  inherited DataSource1: TDataSource
+    DataSet = ModuleContasPagar.CDSContasPagar
+    Left = 616
+    Top = 16
+  end
+end

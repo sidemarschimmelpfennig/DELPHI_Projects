@@ -1,0 +1,93 @@
+unit SistemaFinanceiro.Module.Usuarios;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, SistemaFinanceiro.Module.Conexao,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Datasnap.Provider, Datasnap.DBClient,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+type
+  TModuleUsuarios = class(TDataModule)
+    SQLUsuario: TFDQuery;
+    CDSUsuarios: TClientDataSet;
+    DSPUsuarios: TDataSetProvider;
+    CDSUsuariosid: TStringField;
+    CDSUsuariosnome: TStringField;
+    CDSUsuarioslogin: TStringField;
+    CDSUsuariossenha: TStringField;
+    CDSUsuariosstatus: TStringField;
+    CDSUsuariosdata_cadastro: TDateField;
+  private
+    FNomeUsuarioLogado: String;
+	 FLoginUsuarioLogado: string;
+    FIdUsuarioLogado: string;
+    { Private declarations }
+  public
+	 { Public declarations }
+	 function TemLoginCadastrado(Login: String; Id: string);
+	 procedure EfetuarLogin(Login:string; Senha: string );
+	 property NomeUsuarioLogado: String read FNomeUsuarioLogado write FNomeUsuarioLogado;
+	 property LoginUsuarioLogado: string read FLoginUsuarioLogado write FLoginUsuarioLogado;
+	 property IdUsuarioLogado: string read FIdUsuarioLogado write FIdUsuarioLogado;
+  end;
+
+var
+  Usuarios : TModuleUsuarios;
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TModuleUsuarios }
+
+procedure TModuleUsuarios.EfetuarLogin(Login:string; Senha: string);
+var
+	SQLConsulta: TFDQuery;
+begin
+	 SQLConsulta:= TFDQuery.Create(nil);
+	 try
+	  SQLConsulta.Connection := ModuleConexao.FBCONEXAO;
+	  SQLConsulta.SQL.Clear;
+	  SQLConsulta.SQL.Add('SELECT * FROM USUARIOS WHERE LOGIN = :LOGIN AND SENHA = :SENHA');
+	  SQLConsulta.ParamByName('LOGIN').AsString := Login;
+	  SQLConsulta.ParamByName('SENHA').AsString := Senha;
+	  SQLConsulta.Open;
+	  if SQLConsulta.IsEmpty then
+		raise Exception.Create('Usuario e/ou senha Incompativeis');
+	  if SQLConsulta.FieldByName('STATUS').AsString <> 'A' then
+		  raise Exception.Create('Usuario Bloqueado, favor entrar em contato com o administrador');
+	  FNomeUsuarioLogado := SQLConsulta.FieldByName('NOME').AsString;
+	  FLoginUsuarioLogado := SQLConsulta.FieldByName('LOGIN').AsString;
+	  FIdUsuarioLogado := SQLConsulta.FieldByName('ID').AsString;
+	 finally
+		 SQLConsulta.Close;
+		 SQLConsulta.Free;
+    end;
+	 
+end;
+function TModuleUsuarios.TemLoginCadastrado(Login:String; Id: string);
+
+var
+	SQLConsulta: TFDQuery;
+begin
+	Result:= false;
+	SQLConsulta:= TFDQuery.Create(nil);
+	try
+	  SQLConsulta.Connection := ModuleConexao.FBCONEXAO;
+	  SQLConsulta.SQL.Clear;
+	  SQLConsulta.SQL.Add('SELECT ID FROM USUARIOS WHERE LOGIN = :LOGIN');
+	  SQLConsulta.ParamByName('LOGIN').AsString := Login;
+	  SQLConsulta.Open;
+	  if not SQLConsulta.IsEmpty then
+		  Result:= SQLConsulta.FieldByName('ID').AsString <> ID;
+	finally
+	  SQLConsulta.Close;
+	  SQLConsulta.Free;
+	end;
+end;
+
+end.

@@ -1,0 +1,32 @@
+unit Utilitarios.Recebimento.Caixa;
+
+interface
+ type 
+ TModelResumoCaixa = class
+	 private
+    FSaldoInicial: Currency;
+    FValorEntradas: currency;
+	 FValorSaidas: Currency;
+
+	 public
+		property SaldoInicial: Currency read FSaldoInicial write FSaldoInicial;
+		property ValorEntradas: currency read FValorEntradas write FValorEntradas;
+		property ValorSaidas: Currency read FValorSaidas write FValorSaidas;
+		function SaldoParcial: Currency;
+		function SaldoFinal: Currency;
+ end;
+implementation
+
+{ TModelResumoCaixa }
+
+function TModelResumoCaixa.SaldoFinal: Currency;
+begin
+	Result := FSaldoInicial + SaldoParcial; 
+end;
+
+function TModelResumoCaixa.SaldoParcial: Currency;
+begin
+	Result := FValorEntradas - FValorSaidas
+end;
+
+end.

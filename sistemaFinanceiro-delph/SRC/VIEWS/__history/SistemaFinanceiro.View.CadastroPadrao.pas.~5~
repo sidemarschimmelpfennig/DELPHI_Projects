@@ -1,0 +1,66 @@
+unit SistemaFinanceiro.View.CadastroPadrao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, System.ImageList, Vcl.ImgList,
+  Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.WinXPanels;
+
+type
+  TfrmCadastroPadrao = class(TForm)
+    CardPrincipal: TCardPanel;
+    CdCadastar: TCard;
+	 CdPesquisar: TCard;
+	 pnlTopCDP: TPanel;
+    edtPesquisa: TEdit;
+    btnPesquisar: TButton;
+    pnlBottom: TPanel;
+    DBGrid1: TDBGrid;
+    btnFechar: TButton;
+    btnIncluir: TButton;
+    btnImprimir: TButton;
+    btnExcluir: TButton;
+    Label1: TLabel;
+    ImageList1: TImageList;
+    btnAlterar: TButton;
+    Panel1: TPanel;
+    btnCancelar: TButton;
+    btnCImprimir: TButton;
+    procedure btnFecharClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadastroPadrao: TfrmCadastroPadrao;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmCadastroPadrao.btnCancelarClick(Sender: TObject);
+begin
+  if MessageDlg('Tem Certeza que deseja Fechar ? ', mtConfirmation, mbYesNo, 0) = 6 then
+	CardPrincipal.ActiveCard := CdPesquisar
+end;
+
+procedure TfrmCadastroPadrao.btnFecharClick(Sender: TObject);
+begin
+if MessageDlg('Tem Certeza que deseja Sair ? ', mtConfirmation, mbYesNo, 0) = 6 then
+close;
+end;
+
+procedure TfrmCadastroPadrao.btnIncluirClick(Sender: TObject);
+
+begin
+CardPrincipal.ActiveCard := CdCadastar; 
+end;
+
+
+
+end.

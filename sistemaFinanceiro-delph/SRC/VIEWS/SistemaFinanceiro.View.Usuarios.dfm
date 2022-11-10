@@ -1,0 +1,122 @@
+inherited frmUsuarios: TfrmUsuarios
+  Caption = 'frmUsuarios'
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited CardPrincipal: TCardPanel
+    inherited CdCadastar: TCard
+      Font.Height = -15
+      ParentFont = False
+      object Label2: TLabel [0]
+        Left = 24
+        Top = 32
+        Width = 39
+        Height = 18
+        Caption = 'Nome'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label4: TLabel [1]
+        Left = 24
+        Top = 70
+        Width = 48
+        Height = 18
+        Caption = 'Usuario'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label6: TLabel [2]
+        Left = 22
+        Top = 109
+        Width = 41
+        Height = 18
+        Caption = 'Status'
+      end
+      object edtNome: TEdit
+        Left = 121
+        Top = 29
+        Width = 233
+        Height = 26
+        TabOrder = 1
+      end
+      object edtUsuario: TEdit
+        Left = 121
+        Top = 67
+        Width = 233
+        Height = 26
+        TabOrder = 2
+      end
+      object ToggleStatus: TToggleSwitch
+        Left = 121
+        Top = 107
+        Width = 123
+        Height = 20
+        StateCaptions.CaptionOn = 'Ativo'
+        StateCaptions.CaptionOff = 'Bloqueado'
+        TabOrder = 3
+      end
+    end
+    inherited CdPesquisar: TCard
+      inherited pnlTopCDP: TPanel
+        inherited Label1: TLabel
+          Left = 23
+          Top = 11
+          ExplicitLeft = 23
+          ExplicitTop = 11
+        end
+      end
+      inherited DBGrid1: TDBGrid
+        Margins.Left = 0
+        Margins.Top = 0
+        Ctl3D = False
+        GradientEndColor = clBtnFace
+        ParentCtl3D = False
+        PopupMenu = PopupMenu1
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'nome'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'login'
+            Width = 64
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'status'
+            Width = 210
+            Visible = True
+          end>
+      end
+    end
+  end
+  inherited ImageList1: TImageList
+    Left = 608
+    Top = 80
+  end
+  object PopupMenu1: TPopupMenu [2]
+    Left = 608
+    Top = 136
+    object LimparSenha1: TMenuItem
+      Caption = 'Senha Padrao'
+      OnClick = LimparSenha1Click
+    end
+    object RedefinirSenha1: TMenuItem
+      Caption = 'Redefinir Senha'
+    end
+  end
+  inherited DataSource1: TDataSource
+    DataSet = ModuleUsuarios.CDSUsuarios
+    Left = 608
+  end
+end

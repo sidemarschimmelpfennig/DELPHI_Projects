@@ -1,0 +1,88 @@
+unit SistemaFinanceiro.Module.UltimoLogin;
+
+interface
+
+uses
+  System.SysUtils, System.Classes;
+
+type
+  TDataModule1 = class(TDataModule)
+  private
+	 const ARQUIVOCONFIGURACAO = 'SistemaFinanceiro.cfg'; 
+	 function GetConfiguracao(secao,parametro, valorPadrao : String):string;
+	 procedure SetConfiguracao (secao,parametro, valorPadrao : String);
+	 //function DataUltimoCadastro: string;
+	 { Private declarations }
+  public
+	 { Public declarations }
+	 function DataUltimoAcesso:string; overload;
+	 procedure DataUltimoAcesso(aValue:TDateTime);overload;
+	 function UsuarioUltimoAcesso: string; overload;
+	 procedure UsuarioUltimoAcesso(aValue: String);overload;
+  end;
+
+var
+  DataModule1: TDataModule1;
+
+implementation
+uses
+System.IniFiles, Vcl.forms;
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TDataModule1 }
+
+function TDataModule1.DataUltimoAcesso: string;
+begin
+	Result:= GetConfiguracao('ACESSO','Data','');
+end;
+
+procedure TDataModule1.DataUltimoAcesso(aValue: TDateTime);
+begin
+  SetConfiguracao('ACESSO', 'Data' ,DateTimeToStr(aValue));
+end;
+
+{function TDataModule1.DataUltimoCadastro: string;
+begin
+	
+end;}
+
+function TDataModule1.GetConfiguracao(secao, parametro,
+  valorPadrao: String): string;
+  var 
+  LArquivoConfig: TIniFile;
+begin
+  LArquivoConfig := TIniFile.Create(ExtractFilePath(Application.ExeName)+ ARQUIVOCONFIGURACAO );
+  try
+	 Result:= LArquivoConfig.ReadString(secao, parametro, valorPadrao )
+  finally
+	 LArquivoConfig.Free;
+  end;
+end;
+
+procedure TDataModule1.SetConfiguracao(secao, parametro, valorPadrao: String);
+var 
+  LArquivoConfig: TIniFile;
+begin
+  LArquivoConfig := TIniFile.Create(ExtractFilePath(Application.ExeName)+ ARQUIVOCONFIGURACAO );
+  try
+	LArquivoConfig.WriteString(secao, parametro, valorPadrao );
+finally
+	LArquivoConfig.Free;
+end;
+
+end;
+
+function TDataModule1.UsuarioUltimoAcesso: string;
+begin
+  Result:= GetConfiguracao('ACESSO', 'Usuario', '')
+end;
+
+procedure TDataModule1.UsuarioUltimoAcesso(aValue: String);
+begin
+  SetConfiguracao('ACESSO', 'Usuario', aValue);
+end;
+
+end.

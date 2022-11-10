@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2022/11/02 21:40:25.000.551,=C:\Users\sidem\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/11/02 21:41:22.000.147,C:\Users\sidem\Desktop\Projects\ERP_Delphi\src\Views\View.Main.pas=C:\Users\sidem\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/11/02 21:41:22.000.147,C:\Users\sidem\Desktop\Projects\ERP_Delphi\src\Views\View.Main.dfm=C:\Users\sidem\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2022/11/02 21:45:24.000.308,C:\Users\sidem\Desktop\Projects\ERP_Delphi\ERP.dproj=C:\Users\sidem\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2022/11/02 22:13:16.000.342,C:\Users\sidem\Desktop\Projects\ERP_Delphi\ERP.dproj=C:\Users\sidem\Desktop\Projects\ERP_Delphi\ERP.dproj</Transaction>
+    <Transaction>2022/11/02 22:32:41.633,=C:\Users\sidem\Desktop\Projects\ERP_Delphi\Unit1.pas</Transaction>
+    <Transaction>2022/11/02 22:33:14.985,C:\Users\sidem\Desktop\Projects\ERP_Delphi\src\Views\View.Principal.dfm=C:\Users\sidem\Desktop\Projects\ERP_Delphi\Unit1.dfm</Transaction>
+    <Transaction>2022/11/02 22:33:14.985,C:\Users\sidem\Desktop\Projects\ERP_Delphi\src\Views\View.Principal.pas=C:\Users\sidem\Desktop\Projects\ERP_Delphi\Unit1.pas</Transaction>
+    <Transaction>2022/11/02 23:01:56.799,C:\Users\sidem\Desktop\Projects\ERP_Delphi\src\Views\View.Principal.pas=</Transaction>
+  </Transactions>
+</BorlandProject>

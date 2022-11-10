@@ -1,0 +1,12 @@
+unit SistemaFinanceiro.Model.Entidades.ContasPagar;
+
+interface
+	type TModelContasPagar = class
+	private
+
+	public
+	
+	end;
+implementation
+
+end.

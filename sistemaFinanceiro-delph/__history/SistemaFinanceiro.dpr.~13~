@@ -1,0 +1,34 @@
+program SistemaFinanceiro;
+
+uses
+  Vcl.Forms,
+  SistemaFinanceiro.View.CadastroPadrao in 'SRC\VIEWS\SistemaFinanceiro.View.CadastroPadrao.pas' {frmCadastroPadrao},
+  SistemaFinanceiro.View.Splash in 'SRC\VIEWS\SistemaFinanceiro.View.Splash.pas' {frmSplash},
+  SistemaFinanceiro.View.FormPrincipal in 'SRC\VIEWS\SistemaFinanceiro.View.FormPrincipal.pas' {frmPrincipal},
+  SistemaFinanceiro.Module.Conexao in 'SRC\MODULES\SistemaFinanceiro.Module.Conexao.pas' {ModuleConexao: TDataModule},
+  SistemaFinanceiro.View.Usuarios in 'SRC\VIEWS\SistemaFinanceiro.View.Usuarios.pas' {frmUsuarios},
+  SistemaFinanceiro.Module.Usuarios in 'SRC\MODULES\SistemaFinanceiro.Module.Usuarios.pas' {ModuleUsuarios: TDataModule},
+  Utilitarios in 'SRC\UTILS\Utilitarios.pas',
+  SistemaFinanceiro.View.Login in 'SRC\VIEWS\SistemaFinanceiro.View.Login.pas' {frmLogin},
+  Utilitarios.usuarios in 'SRC\UTILS\Utilitarios.usuarios.pas',
+  SistemaFinanceiro.Module.UltimoLogin in 'SRC\MODULES\SistemaFinanceiro.Module.UltimoLogin.pas' {ModuleLogin: TDataModule},
+  SistemaFinanceiro.View.RedefinirSenha in 'SRC\VIEWS\SistemaFinanceiro.View.RedefinirSenha.pas' {frmRedefinirSenha},
+  SistemaFinanceiro.Module.Caixa in 'SRC\MODULES\SistemaFinanceiro.Module.Caixa.pas' {ModuleCaixa: TDataModule},
+  SistemaFinanceiro.View.Caixa in 'SRC\VIEWS\SistemaFinanceiro.View.Caixa.pas' {frmCaixa};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TModuleConexao, ModuleConexao);
+  Application.CreateForm(TModuleUsuarios, ModuleUsuarios);
+  Application.CreateForm(TModuleCaixa, ModuleCaixa);
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmCadastroPadrao, frmCadastroPadrao);
+  Application.CreateForm(TfrmUsuarios, frmUsuarios);
+  Application.CreateForm(TModuleLogin, ModuleLogin);
+  Application.CreateForm(TfrmRedefinirSenha, frmRedefinirSenha);
+  Application.CreateForm(TfrmCaixa, frmCaixa);
+  Application.Run;
+end.
